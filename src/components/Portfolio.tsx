@@ -7,7 +7,6 @@ import {
   Layers3,
   TvIcon,
 } from "lucide-react";
-import thumbnail from "../images/WhatappIntegration.png";
 
 type Project = {
   id: number;
@@ -29,7 +28,7 @@ const projects: Project[] = [
     title: "Whatapp AI Chatbot",
     description:
       "Sistem integrasi WhatsApp untuk otomatisasi pesan, notifikasi, chatbot, dan komunikasi bisnis berbasis API.",
-    thumbnail: thumbnail,
+    thumbnail: "images/WhatappIntegration.png",
     tech: ["Api Whatapp", "Gemini", "N8N", "MySQL"],
     demoUrl: "#",
     sourceUrl: "https://github.com/joeadnan/Project-Ai",
@@ -41,7 +40,7 @@ const projects: Project[] = [
     title: "Website Portfolio",
     description:
       "Platform belanja online lengkap dengan payment gateway, manajemen produk, dan dashboard analitik.",
-    thumbnail: "src/images/Website.jpg",
+    thumbnail: "images/Website.jpg",
     tech: ["Nuxt.js", "TailwindCSS"],
     demoUrl: "https://baja-k.vercel.app/",
     sourceUrl: "https://github.com/joeadnan/BajaK",
@@ -89,7 +88,7 @@ const projects: Project[] = [
     title: "Payment Gateway API",
     description:
       "Wrapper API payment gateway multi-provider dengan rekonsiliasi otomatis dan webhook handler.",
-    thumbnail: "src/images/TCV.jpg",
+    thumbnail: "images/TCV.jpg",
     tech: ["Laravel", "MySQL", "Queue"],
     demoUrl: "#",
     sourceUrl: "https://github.com/joeadnan/project",
