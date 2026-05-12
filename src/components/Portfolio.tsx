@@ -1,139 +1,240 @@
-import { useState } from 'react'
-import { ExternalLink, Github, Star } from 'lucide-react'
+import { useState } from "react";
+import {
+  ExternalLink,
+  Github,
+  Star,
+  Sparkles,
+  Layers3,
+  TvIcon,
+} from "lucide-react";
+import thumbnail from "../images/WhatappIntegration.png";
 
-const projects = [
-  {
-    id: 1, category: 'Web App', isFeatured: true,
-    title: 'SaaS Manajemen Inventori',
-    description: 'Platform manajemen inventori real-time untuk bisnis retail dengan laporan otomatis dan integrasi marketplace.',
-    thumbnail: 'https://picsum.photos/seed/inv/600/400',
-    tech: ['Laravel', 'Vue.js', 'MySQL', 'Redis'],
-    demoUrl: '#', sourceUrl: '#',
-  },
-  {
-    id: 2, category: 'E-Commerce', isFeatured: true,
-    title: 'E-Commerce Platform',
-    description: 'Platform belanja online lengkap dengan payment gateway, manajemen produk, dan dashboard analitik.',
-    thumbnail: 'https://picsum.photos/seed/ecom/600/400',
-    tech: ['Laravel', 'React', 'PostgreSQL', 'Stripe'],
-    demoUrl: '#', sourceUrl: '#',
-  },
-  {
-    id: 3, category: 'Mobile', isFeatured: true,
-    title: 'Mobile App Keuangan',
-    description: 'Aplikasi manajemen keuangan pribadi dengan budgeting, pencatatan transaksi, dan laporan visual.',
-    thumbnail: 'https://picsum.photos/seed/fin/600/400',
-    tech: ['React Native', 'Node.js', 'MongoDB'],
-    demoUrl: '#', sourceUrl: '#',
-  },
-  {
-    id: 4, category: 'Website', isFeatured: false,
-    title: 'Company Profile Website',
-    description: 'Website company profile modern dengan CMS custom, blog, dan formulir kontak terintegrasi.',
-    thumbnail: 'https://picsum.photos/seed/corp/600/400',
-    tech: ['Laravel', 'TailwindCSS', 'Alpine.js'],
-    demoUrl: '#', sourceUrl: '#',
-  },
-  {
-    id: 5, category: 'Web App', isFeatured: false,
-    title: 'LMS Platform',
-    description: 'Platform belajar online dengan video streaming, quiz interaktif, dan sertifikasi otomatis.',
-    thumbnail: 'https://picsum.photos/seed/lms/600/400',
-    tech: ['Laravel', 'Vue.js', 'FFmpeg'],
-    demoUrl: '#', sourceUrl: '#',
-  },
-  {
-    id: 6, category: 'API', isFeatured: false,
-    title: 'Payment Gateway API',
-    description: 'Wrapper API payment gateway multi-provider dengan rekonsiliasi otomatis dan webhook handler.',
-    thumbnail: 'https://picsum.photos/seed/pay/600/400',
-    tech: ['Laravel', 'Redis', 'Queue'],
-    demoUrl: '#', sourceUrl: '#',
-  },
-]
+type Project = {
+  id: number;
+  category: string;
+  isFeatured: boolean;
+  title: string;
+  description: string;
+  thumbnail: string;
+  tech: string[];
+  demoUrl: string;
+  sourceUrl: string;
+};
 
-const categories = ['Semua', 'Web App', 'E-Commerce', 'Mobile', 'Website', 'API']
+const projects: Project[] = [
+  {
+    id: 1,
+    category: "AI Project",
+    isFeatured: true,
+    title: "Whatapp AI Chatbot",
+    description:
+      "Sistem integrasi WhatsApp untuk otomatisasi pesan, notifikasi, chatbot, dan komunikasi bisnis berbasis API.",
+    thumbnail: thumbnail,
+    tech: ["Api Whatapp", "Gemini", "N8N", "MySQL"],
+    demoUrl: "#",
+    sourceUrl: "https://github.com/joeadnan/Project-Ai",
+  },
+  {
+    id: 2,
+    category: "Website",
+    isFeatured: true,
+    title: "Website Portfolio",
+    description:
+      "Platform belanja online lengkap dengan payment gateway, manajemen produk, dan dashboard analitik.",
+    thumbnail: "src/images/Website.jpg",
+    tech: ["Nuxt.js", "TailwindCSS"],
+    demoUrl: "https://baja-k.vercel.app/",
+    sourceUrl: "https://github.com/joeadnan/BajaK",
+  },
+  // {
+  //   id: 3,
+  //   category: "Mobile",
+  //   isFeatured: true,
+  //   title: "Mobile App Keuangan",
+  //   description:
+  //     "Aplikasi manajemen keuangan pribadi dengan budgeting, pencatatan transaksi, dan laporan visual.",
+  //   thumbnail: "https://picsum.photos/seed/fin/600/400",
+  //   tech: ["React Native", "Node.js", "MongoDB"],
+  //   demoUrl: "#",
+  //   sourceUrl: "#",
+  // },
+  // {
+  //   id: 4,
+  //   category: "Website",
+  //   isFeatured: false,
+  //   title: "Company Profile Website",
+  //   description:
+  //     "Website company profile modern dengan CMS custom, blog, dan formulir kontak terintegrasi.",
+  //   thumbnail: "https://picsum.photos/seed/corp/600/400",
+  //   tech: ["Laravel", "TailwindCSS", "Alpine.js"],
+  //   demoUrl: "#",
+  //   sourceUrl: "#",
+  // },
+  // {
+  //   id: 5,
+  //   category: "Web App",
+  //   isFeatured: false,
+  //   title: "LMS Platform",
+  //   description:
+  //     "Platform belajar online dengan video streaming, quiz interaktif, dan sertifikasi otomatis.",
+  //   thumbnail: "https://picsum.photos/seed/lms/600/400",
+  //   tech: ["Laravel", "Vue.js", "FFmpeg"],
+  //   demoUrl: "#",
+  //   sourceUrl: "#",
+  // },
+  {
+    id: 6,
+    category: "API",
+    isFeatured: false,
+    title: "Payment Gateway API",
+    description:
+      "Wrapper API payment gateway multi-provider dengan rekonsiliasi otomatis dan webhook handler.",
+    thumbnail: "src/images/TCV.jpg",
+    tech: ["Laravel", "MySQL", "Queue"],
+    demoUrl: "#",
+    sourceUrl: "https://github.com/joeadnan/project",
+  },
+];
+
+const categories = [
+  "Semua",
+  "Web App",
+  "E-Commerce",
+  "AI Project",
+  "Website",
+  "API",
+];
 
 export default function Portfolio() {
-  const [filter, setFilter] = useState('Semua')
+  const [filter, setFilter] = useState("Semua");
 
-  const filtered = filter === 'Semua' ? projects : projects.filter(p => p.category === filter)
+  const filtered =
+    filter === "Semua"
+      ? projects
+      : projects.filter((project) => project.category === filter);
 
   return (
-    <section id="portfolio" className="section">
-      <div className="container-custom">
-        {/* Header */}
-        <div className="text-center mb-14">
-          <p className="section-label mb-3">Portfolio</p>
-          <h2 className="section-title mb-4">
-            Proyek <span className="gradient-text">Terpilih</span>
+    <section
+      id="portfolio"
+      className="relative overflow-hidden bg-slate-950 px-4 py-24 text-white"
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(16,185,129,0.14),transparent_32%),radial-gradient(circle_at_80%_70%,rgba(20,184,166,0.12),transparent_35%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(16,185,129,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-[size:64px_64px] opacity-25" />
+
+      <div className="container-custom relative z-10 mx-auto">
+        <div className="mx-auto mb-14 max-w-2xl text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm text-emerald-300">
+            <Sparkles size={15} />
+            Portfolio
+          </div>
+
+          <h2 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+            Proyek{" "}
+            <span className="bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
+              Terpilih
+            </span>
           </h2>
-          <p className="text-slate-400 max-w-xl mx-auto">
-            Koleksi proyek yang mencerminkan kemampuan teknis dan kreativitas dalam memecahkan masalah nyata.
+
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-400">
+            Koleksi proyek yang mencerminkan kemampuan teknis dan kreativitas
+            dalam memecahkan masalah nyata.
           </p>
         </div>
 
-        {/* Filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map(cat => (
-            <button key={cat} onClick={() => setFilter(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                filter === cat
-                  ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/30'
-                  : 'text-slate-400 hover:text-white border border-surface-border hover:border-brand-500/40'
-              }`}>
-              {cat}
-            </button>
-          ))}
+        <div className="mb-10 flex flex-wrap justify-center gap-2">
+          {categories.map((cat) => {
+            const isActive = filter === cat;
+
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setFilter(cat)}
+                className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${
+                  isActive
+                    ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-[0_0_28px_rgba(16,185,129,0.28)]"
+                    : "border border-white/10 bg-white/[0.03] text-slate-400 hover:border-emerald-400/30 hover:bg-emerald-400/10 hover:text-white"
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((project, i) => (
-            <div key={project.id}
-              className="group glass-card overflow-hidden hover:border-brand-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-600/10 animate-fade-up"
-              style={{ animationDelay: `${i * 0.1}s` }}>
-              {/* Thumbnail */}
-              <div className="relative overflow-hidden h-48">
-                <img src={project.thumbnail} alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
-                <div className="absolute inset-0 bg-gradient-to-t from-surface-card via-transparent to-transparent" />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((project, index) => (
+            <article
+              key={project.id}
+              className="group overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/70 shadow-[0_0_40px_rgba(16,185,129,0.08)] backdrop-blur-2xl transition duration-300 hover:-translate-y-2 hover:border-emerald-400/30 hover:bg-emerald-400/5"
+              style={{ animationDelay: `${index * 0.08}s` }}
+            >
+              <div className="relative h-52 overflow-hidden">
+                <img
+                  src={project.thumbnail}
+                  alt={project.title}
+                  className="h-full w-full object-cover opacity-75 transition duration-700 group-hover:scale-110"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+
+                <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1.5 text-xs font-semibold text-slate-300 backdrop-blur-xl">
+                  <Layers3 size={12} className="text-emerald-300" />
+                  {project.category}
+                </span>
+
                 {project.isFeatured && (
-                  <span className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-brand-600/90 text-xs font-semibold text-white">
-                    <Star size={10} /> Featured
+                  <span className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-3 py-1.5 text-xs font-semibold text-white shadow-[0_0_20px_rgba(16,185,129,0.28)]">
+                    <Star size={12} />
+                    Featured
                   </span>
                 )}
-                <span className="absolute top-3 left-3 tag">{project.category}</span>
               </div>
 
-              {/* Content */}
-              <div className="p-5 space-y-4">
+              <div className="space-y-5 p-6">
                 <div>
-                  <h3 className="font-bold text-white text-lg leading-tight">{project.title}</h3>
-                  <p className="text-sm text-slate-400 mt-2 leading-relaxed">{project.description}</p>
+                  <h3 className="text-lg font-bold leading-tight text-white">
+                    {project.title}
+                  </h3>
+
+                  <p className="mt-3 text-sm leading-relaxed text-slate-400">
+                    {project.description}
+                  </p>
                 </div>
 
-                <div className="flex flex-wrap gap-1.5">
-                  {project.tech.map(t => (
-                    <span key={t} className="px-2 py-1 rounded-md text-xs font-medium bg-surface-border/50 text-slate-400">{t}</span>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-semibold text-slate-400"
+                    >
+                      {tech}
+                    </span>
                   ))}
                 </div>
 
-                <div className="flex gap-3 pt-1">
-                  <a href={project.demoUrl}
-                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold bg-brand-600/20 text-brand-300 hover:bg-brand-600/40 hover:text-white transition-colors">
-                    <ExternalLink size={14} /> Demo
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                  <a
+                    href={project.demoUrl}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-400/10 px-4 py-2.5 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-400/20 hover:text-white"
+                  >
+                    <ExternalLink size={15} />
+                    Demo
                   </a>
-                  <a href={project.sourceUrl}
-                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold border border-surface-border text-slate-400 hover:text-white hover:border-brand-500/40 transition-colors">
-                    <Github size={14} /> Source
+
+                  <a
+                    href={project.sourceUrl}
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm font-semibold text-slate-400 transition hover:border-emerald-400/30 hover:bg-emerald-400/10 hover:text-white"
+                  >
+                    <Github size={15} />
+                    Source
                   </a>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

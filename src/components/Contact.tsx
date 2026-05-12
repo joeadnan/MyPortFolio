@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import {
   Mail,
   Phone,
@@ -9,6 +9,7 @@ import {
   Twitter,
   Instagram,
   CheckCircle2,
+  Sparkles,
 } from "lucide-react";
 
 type FormData = {
@@ -17,25 +18,26 @@ type FormData = {
   subject: string;
   message: string;
 };
+
 type Status = "idle" | "loading" | "success" | "error";
 
 const contactInfo = [
   {
     icon: <Mail size={18} />,
     label: "Email",
-    value: "andi@example.com",
-    href: "mailto:andi@example.com",
+    value: "hasyimjoe@gmail.com",
+    href: "mailto:hasyimjoe@gmail.com",
   },
   {
     icon: <Phone size={18} />,
     label: "Telepon",
-    value: "+62 812 3456 7890",
-    href: "tel:+6281234567890",
+    value: "+62 83 821 359 270",
+    href: "tel:+6283821359370",
   },
   {
     icon: <MapPin size={18} />,
     label: "Lokasi",
-    value: "Jakarta, Indonesia",
+    value: "Serang, Banten, Indonesia",
     href: "#",
   },
 ];
@@ -54,69 +56,84 @@ export default function Contact() {
     subject: "",
     message: "",
   });
+
   const [status, setStatus] = useState<Status>("idle");
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
-    // Simulate API call
-    await new Promise((r) => setTimeout(r, 1500));
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
     setStatus("success");
     setForm({ name: "", email: "", subject: "", message: "" });
+
     setTimeout(() => setStatus("idle"), 4000);
   };
 
-  const inputClass = `w-full px-4 py-3 rounded-xl bg-surface-card border border-surface-border text-white placeholder-slate-600
-    text-sm focus:outline-none focus:border-brand-500/60 focus:ring-1 focus:ring-brand-500/30 transition-colors`;
+  const inputClass =
+    "w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-slate-600 outline-none backdrop-blur-xl transition focus:border-emerald-400/40 focus:bg-emerald-400/5 focus:ring-2 focus:ring-emerald-400/10";
 
   return (
-    <section id="contact" className="section">
-      <div className="container-custom">
-        {/* Header */}
-        {/* <div className="text-center mb-14">
-          <p className="section-label mb-3">Kontak</p>
-          <h2 className="section-title mb-4">
-            Mari <span className="gradient-text">Berkolaborasi</span>
-          </h2>
-          <p className="text-slate-400 max-w-xl mx-auto">
-            Punya proyek menarik? Saya siap mendengar ide Anda dan mewujudkannya menjadi produk digital yang luar biasa.
-          </p>
-        </div> */}
+    <section
+      id="contact"
+      className="relative overflow-hidden bg-slate-950 px-4 py-24 text-white"
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(16,185,129,0.14),transparent_32%),radial-gradient(circle_at_80%_70%,rgba(20,184,166,0.12),transparent_35%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(16,185,129,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-[size:64px_64px] opacity-25" />
 
-        <div className="grid lg:grid-cols-5 gap-10">
-          {/* Left info panel */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="glass-card p-7 space-y-6">
+      <div className="container-custom relative z-10 mx-auto">
+        <div className="mx-auto mb-14 max-w-2xl text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm text-emerald-300">
+            <Sparkles size={15} />
+            Kontak
+          </div>
+
+          <h2 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+            Mari{" "}
+            <span className="bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
+              Berkolaborasi
+            </span>
+          </h2>
+
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-400">
+            Punya proyek menarik? Saya siap mendengar ide Anda dan membantu
+            mewujudkannya menjadi produk digital yang berkualitas.
+          </p>
+        </div>
+
+        <div className="grid gap-10 lg:grid-cols-5">
+          <div className="space-y-6 lg:col-span-2">
+            <div className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-7 shadow-[0_0_50px_rgba(16,185,129,0.1)] backdrop-blur-2xl">
               <div>
-                <h3 className="font-bold text-white text-lg mb-1">
-                  Hubungi Saya
-                </h3>
-                <p className="text-slate-500 text-sm">
+                <h3 className="text-lg font-bold text-white">Hubungi Saya</h3>
+                <p className="mt-2 text-sm text-slate-500">
                   Saya akan membalas dalam 24 jam.
                 </p>
               </div>
 
-              <div className="space-y-4">
+              <div className="mt-7 space-y-4">
                 {contactInfo.map(({ icon, label, value, href }) => (
                   <a
                     key={label}
                     href={href}
-                    className="flex items-center gap-4 group"
+                    className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-emerald-400/30 hover:bg-emerald-400/10"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 group-hover:bg-brand-500/20 transition-colors shrink-0">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-400/20 bg-emerald-400/10 text-emerald-300 transition group-hover:bg-emerald-400/20">
                       {icon}
                     </div>
+
                     <div>
-                      <p className="text-xs text-slate-600 font-mono">
+                      <p className="font-mono text-xs text-slate-600">
                         {label}
                       </p>
-                      <p className="text-sm text-white font-medium group-hover:text-brand-300 transition-colors">
+                      <p className="mt-1 text-sm font-semibold text-white transition group-hover:text-emerald-300">
                         {value}
                       </p>
                     </div>
@@ -124,17 +141,18 @@ export default function Contact() {
                 ))}
               </div>
 
-              <div className="pt-4 border-t border-surface-border">
-                <p className="text-xs font-mono text-slate-600 mb-3">
+              <div className="mt-7 border-t border-white/10 pt-6">
+                <p className="mb-3 font-mono text-xs tracking-[0.3em] text-slate-600">
                   FOLLOW ME
                 </p>
-                <div className="flex gap-2">
+
+                <div className="flex flex-wrap gap-2">
                   {socials.map(({ icon, label, href }) => (
                     <a
                       key={label}
                       href={href}
                       aria-label={label}
-                      className="w-9 h-9 rounded-lg border border-surface-border flex items-center justify-center text-slate-500 hover:text-white hover:border-brand-500/40 hover:bg-brand-500/10 transition-all"
+                      className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-500 transition hover:-translate-y-1 hover:border-emerald-400/30 hover:bg-emerald-400/10 hover:text-emerald-300"
                     >
                       {icon}
                     </a>
@@ -143,39 +161,40 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Availability badge */}
-            <div className="glass-card p-5 flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <div className="flex items-center gap-4 rounded-[2rem] border border-emerald-400/20 bg-emerald-400/10 p-5 shadow-[0_0_35px_rgba(16,185,129,0.12)] backdrop-blur-xl">
+              <span className="h-3 w-3 shrink-0 rounded-full bg-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.9)] animate-pulse" />
+
               <div>
                 <p className="text-sm font-semibold text-white">
                   Tersedia untuk Proyek Baru
                 </p>
-                <p className="text-xs text-slate-500">
+                <p className="mt-1 text-xs text-slate-500">
                   Freelance & Full-time Welcome
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Right form */}
           <div className="lg:col-span-3">
-            <div className="glass-card p-8">
+            <div className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-6 shadow-[0_0_50px_rgba(16,185,129,0.1)] backdrop-blur-2xl sm:p-8">
               {status === "success" ? (
-                <div className="flex flex-col items-center justify-center py-12 space-y-4 text-center">
-                  <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
-                    <CheckCircle2 size={32} className="text-emerald-400" />
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-400/10 shadow-[0_0_35px_rgba(16,185,129,0.18)]">
+                    <CheckCircle2 size={38} className="text-emerald-300" />
                   </div>
-                  <h3 className="text-xl font-bold text-white">
+
+                  <h3 className="text-2xl font-bold text-white">
                     Pesan Terkirim!
                   </h3>
-                  <p className="text-slate-400 text-sm">
-                    Terima kasih! Saya akan segera menghubungi Anda.
+
+                  <p className="mt-3 max-w-sm text-sm leading-relaxed text-slate-400">
+                    Terima kasih! Saya akan segera menghubungi Anda kembali.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="grid sm:grid-cols-2 gap-5">
-                    <div className="space-y-1.5">
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div className="space-y-2">
                       <label className="text-xs font-semibold text-slate-400">
                         Nama Lengkap
                       </label>
@@ -188,7 +207,8 @@ export default function Contact() {
                         className={inputClass}
                       />
                     </div>
-                    <div className="space-y-1.5">
+
+                    <div className="space-y-2">
                       <label className="text-xs font-semibold text-slate-400">
                         Email
                       </label>
@@ -204,7 +224,7 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     <label className="text-xs font-semibold text-slate-400">
                       Subjek
                     </label>
@@ -218,7 +238,7 @@ export default function Contact() {
                     />
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     <label className="text-xs font-semibold text-slate-400">
                       Pesan
                     </label>
@@ -228,7 +248,7 @@ export default function Contact() {
                       onChange={handleChange}
                       placeholder="Ceritakan proyek atau pertanyaan Anda..."
                       required
-                      rows={5}
+                      rows={6}
                       className={`${inputClass} resize-none`}
                     />
                   </div>
@@ -236,16 +256,17 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="btn-primary w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_0_35px_rgba(16,185,129,0.28)] transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {status === "loading" ? (
                       <>
-                        <span className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                        <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
                         Mengirim...
                       </>
                     ) : (
                       <>
-                        <Send size={16} /> Kirim Pesan
+                        <Send size={16} />
+                        Kirim Pesan
                       </>
                     )}
                   </button>

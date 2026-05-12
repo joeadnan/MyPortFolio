@@ -1,32 +1,50 @@
-import axios from 'axios'
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1',
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1",
   withCredentials: true,
-  headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-})
+  headers: {
+    Accept: "application/json",
+  },
+});
 
-// Auto-attach token
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token')
-  if (token) config.headers.Authorization = `Bearer ${token}`
-  return config
-})
+  const token = localStorage.getItem("token");
 
-// ── Public ──────────────────────────────────────────────────────
-export const getProfile      = ()           => api.get('/profile')
-export const getAbout        = ()           => api.get('/about')
-export const getSkills       = ()           => api.get('/skills')
-export const getExperiences  = ()           => api.get('/experiences')
-export const getPortfolio    = (params?: object) => api.get('/portfolio', { params })
-export const getPortfolioItem = (slug: string)  => api.get(`/portfolio/${slug}`)
-export const getBlogs        = (params?: object) => api.get('/blogs', { params })
-export const getBlog         = (slug: string)    => api.get(`/blogs/${slug}`)
-export const getTestimonials = ()           => api.get('/testimonials')
-export const sendContact     = (data: object) => api.post('/contact', data)
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
-// ── Auth ─────────────────────────────────────────────────────────
-export const login  = (data: object) => api.post('/login', data)
-export const logout = ()              => api.post('/admin/logout')
+  return config;
+});
 
-export default api
+// Public Blog
+export const getBlogs = (params?: object) => api.get("/blogs", { params });
+export const getBlog = (slug: string) => api.get(`/blogs/${slug}`);
+export const getFeaturedBlogs = () => api.get("/blogs/featured");
+
+// Admin Blog
+export const getAdminBlogs = (params?: object) =>
+  api.get("/admin/blogs", { params });
+
+export const getAdminBlog = (id: number | string) =>
+  api.get(`/admin/blogs/${id}`);
+
+export const createBlogApi = (data: FormData) =>
+  api.post("/admin/blogs", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+export const updateBlogApi = (id: number | string, data: FormData) =>
+  api.post(`/admin/blogs/${id}`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+export const deleteBlogApi = (id: number | string) =>
+  api.delete(`/admin/blogs/${id}`);
+
+export default api;
