@@ -21,6 +21,8 @@ type FormData = {
 
 type Status = "idle" | "loading" | "success" | "error";
 
+const WHATSAPP_NUMBER = "6283821359370"; // 083821359370 → format internasional tanpa +
+
 const contactInfo = [
   {
     icon: <Mail size={18} />,
@@ -31,7 +33,7 @@ const contactInfo = [
   {
     icon: <Phone size={18} />,
     label: "Telepon",
-    value: "+62 83 821 359 270",
+    value: "+62 83 821 359 370",
     href: "tel:+6283821359370",
   },
   {
@@ -69,7 +71,25 @@ export default function Contact() {
     e.preventDefault();
     setStatus("loading");
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Format pesan WhatsApp
+    const waText = [
+      `*Pesan dari Website Portfolio*`,
+      ``,
+      `*Nama:* ${form.name}`,
+      `*Email:* ${form.email}`,
+      `*Subjek:* ${form.subject}`,
+      ``,
+      `*Pesan:*`,
+      form.message,
+    ].join("\n");
+
+    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+
+    // Buka WhatsApp di tab baru
+    window.open(waUrl, "_blank", "noopener,noreferrer");
+
+    // Simulasi delay singkat supaya UX terasa smooth
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
     setStatus("success");
     setForm({ name: "", email: "", subject: "", message: "" });
@@ -184,11 +204,15 @@ export default function Contact() {
                   </div>
 
                   <h3 className="text-2xl font-bold text-white">
-                    Pesan Terkirim!
+                    WhatsApp Terbuka!
                   </h3>
 
                   <p className="mt-3 max-w-sm text-sm leading-relaxed text-slate-400">
-                    Terima kasih! Saya akan segera menghubungi Anda kembali.
+                    Pesan sudah disiapkan di WhatsApp. Tinggal klik{" "}
+                    <span className="font-semibold text-emerald-300">
+                      Kirim
+                    </span>{" "}
+                    untuk mengirimkannya ke saya.
                   </p>
                 </div>
               ) : (
@@ -261,15 +285,19 @@ export default function Contact() {
                     {status === "loading" ? (
                       <>
                         <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                        Mengirim...
+                        Membuka WhatsApp...
                       </>
                     ) : (
                       <>
                         <Send size={16} />
-                        Kirim Pesan
+                        Kirim via WhatsApp
                       </>
                     )}
                   </button>
+
+                  <p className="text-center text-xs text-slate-600">
+                    Pesan akan dikirim melalui WhatsApp Anda
+                  </p>
                 </form>
               )}
             </div>

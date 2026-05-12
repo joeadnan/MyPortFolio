@@ -10,7 +10,7 @@ import {
   ServerCog,
   BarChart3,
 } from "lucide-react";
-import profileImage from "../images/Fotojas.jpeg";
+import profileImage from "../../public/images/Fotojas.jpeg";
 
 interface Particle {
   x: number;
