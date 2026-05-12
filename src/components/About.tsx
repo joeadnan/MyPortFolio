@@ -62,7 +62,7 @@ export default function About() {
               <div className="space-y-4">
                 <div className="h-52 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] shadow-[0_0_40px_rgba(16,185,129,0.08)] backdrop-blur-xl">
                   <img
-                    src="/src/images/Asietex.jpg"
+                    src="../images/Asietex.jpg"
                     alt="Workspace"
                     className="h-full w-full object-cover opacity-70 transition duration-500 hover:scale-105"
                   />
@@ -93,7 +93,7 @@ export default function About() {
 
                 <div className="h-52 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] shadow-[0_0_40px_rgba(20,184,166,0.08)] backdrop-blur-xl">
                   <img
-                    src="/src/images/CCTV.jpg"
+                    src="../images/CCTV.jpg"
                     alt="Data analytics"
                     className="h-full w-full object-cover opacity-70 transition duration-500 hover:scale-105"
                   />
