@@ -10,7 +10,7 @@ import Blog from "./components/Blog";
 import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-
+import AirplaneCursor from "./components/AirplaneCursor";
 import BlogAdmin from "./components/BlogAdmin";
 import BlogForm from "./components/BlogForm";
 
@@ -19,6 +19,7 @@ import "./styles/globals.css";
 function Home() {
   return (
     <div className="relative overflow-x-hidden">
+      <AirplaneCursor />
       <Navbar />
 
       <main>
