@@ -1,50 +1,111 @@
-import axios from "axios";
+import { supabase } from "../lib/supabase";
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1",
-  withCredentials: true,
-  headers: {
-    Accept: "application/json",
-  },
-});
+export type BlogStatus = "draft" | "published";
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+export type BlogFormPayload = {
+  title: string;
+  slug: string;
+  excerpt?: string;
+  content: string;
+  status: BlogStatus;
+  cover_url?: string | null;
+  published_at?: string | null;
+};
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+export const getBlogs = async (params?: { status?: BlogStatus }) => {
+  let query = supabase
+    .from("blogs")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (params?.status) {
+    query = query.eq("status", params.status);
   }
 
-  return config;
-});
+  return query;
+};
 
-// Public Blog
-export const getBlogs = (params?: object) => api.get("/blogs", { params });
-export const getBlog = (slug: string) => api.get(`/blogs/${slug}`);
-export const getFeaturedBlogs = () => api.get("/blogs/featured");
+export const getBlog = async (slug: string) => {
+  return supabase
+    .from("blogs")
+    .select("id,title,slug,excerpt,content,cover_url,status,created_at")
+    .eq("slug", slug)
+    .eq("status", "published")
+    .single();
+};
 
-// Admin Blog
-export const getAdminBlogs = (params?: object) =>
-  api.get("/admin/blogs", { params });
+export const getFeaturedBlogs = async () => {
+  return supabase
+    .from("blogs")
+    .select("*")
+    .eq("status", "published")
+    .order("views", { ascending: false })
+    .limit(3);
+};
 
-export const getAdminBlog = (id: number | string) =>
-  api.get(`/admin/blogs/${id}`);
+export const getAdminBlogs = async (params?: { status?: BlogStatus }) => {
+  let query = supabase
+    .from("blogs")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-export const createBlogApi = (data: FormData) =>
-  api.post("/admin/blogs", data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  if (params?.status) {
+    query = query.eq("status", params.status);
+  }
 
-export const updateBlogApi = (id: number | string, data: FormData) =>
-  api.post(`/admin/blogs/${id}`, data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  return query;
+};
 
-export const deleteBlogApi = (id: number | string) =>
-  api.delete(`/admin/blogs/${id}`);
+export const getAdminBlog = async (id: number | string) => {
+  return supabase.from("blogs").select("*").eq("id", id).single();
+};
 
-export default api;
+export const createBlogApi = async (data: BlogFormPayload) => {
+  return supabase.from("blogs").insert(data).select().single();
+};
+
+export const updateBlogApi = async (
+  id: number | string,
+  data: Partial<BlogFormPayload>,
+) => {
+  return supabase
+    .from("blogs")
+    .update({
+      ...data,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", id)
+    .select()
+    .single();
+};
+
+export const deleteBlogApi = async (id: number | string) => {
+  return supabase.from("blogs").delete().eq("id", id);
+};
+
+export const uploadBlogCover = async (file: File) => {
+  const fileExt = file.name.split(".").pop();
+
+  const fileName = `${Date.now()}-${Math.random()
+    .toString(36)
+    .substring(2)}.${fileExt}`;
+
+  const filePath = `covers/${fileName}`;
+
+  const { data: uploadData, error } = await supabase.storage
+    .from("blog-covers")
+    .upload(filePath, file);
+
+  console.log("UPLOAD DATA:", uploadData);
+  console.log("UPLOAD ERROR:", error);
+
+  if (error) {
+    throw error;
+  }
+
+  const { data } = supabase.storage.from("blog-covers").getPublicUrl(filePath);
+
+  console.log("PUBLIC URL:", data.publicUrl);
+
+  return data.publicUrl;
+};
