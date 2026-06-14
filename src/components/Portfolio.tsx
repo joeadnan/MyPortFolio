@@ -54,7 +54,7 @@ const projects: Project[] = [
       "Coffe Senja Web App adalah proyek aplikasi berbasis website yang dirancang untuk meningkatkan pengalaman pelanggan (customer experience) di kedai kopi.",
     thumbnail: "../images/Coffe.png",
     tech: ["React Native", "Node.js", "MongoDB"],
-    demoUrl: "https://coffee-shop-6kxkxequv-joeadnans-projects.vercel.app/",
+    demoUrl: "https://coffee-shop-phi-ecru.vercel.app/",
     sourceUrl: "https://github.com/joeadnan/CoffeeShop",
   },
   // {
