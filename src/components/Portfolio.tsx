@@ -45,18 +45,18 @@ const projects: Project[] = [
     demoUrl: "https://baja-k.vercel.app/",
     sourceUrl: "https://github.com/joeadnan/BajaK",
   },
-  // {
-  //   id: 3,
-  //   category: "Mobile",
-  //   isFeatured: true,
-  //   title: "Mobile App Keuangan",
-  //   description:
-  //     "Aplikasi manajemen keuangan pribadi dengan budgeting, pencatatan transaksi, dan laporan visual.",
-  //   thumbnail: "https://picsum.photos/seed/fin/600/400",
-  //   tech: ["React Native", "Node.js", "MongoDB"],
-  //   demoUrl: "#",
-  //   sourceUrl: "#",
-  // },
+  {
+    id: 3,
+    category: "Website",
+    isFeatured: true,
+    title: "Coffe Shop",
+    description:
+      "Coffe Senja Web App adalah proyek aplikasi berbasis website yang dirancang untuk meningkatkan pengalaman pelanggan (customer experience) di kedai kopi.",
+    thumbnail: "../images/Coffe.png",
+    tech: ["React Native", "Node.js", "MongoDB"],
+    demoUrl: "https://coffee-shop-6kxkxequv-joeadnans-projects.vercel.app/",
+    sourceUrl: "https://github.com/joeadnan/CoffeeShop",
+  },
   // {
   //   id: 4,
   //   category: "Website",
